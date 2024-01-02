@@ -1,4 +1,5 @@
 from openai import OpenAI
+import openai
 import os
 from dotenv import load_dotenv
 
@@ -22,8 +23,12 @@ async def talk(ctx, *args):
     try:
         bot_answer = TalkWithYang(prompt)
         await ctx.send(bot_answer)
-    except:
-        await ctx.send('오류가 발생했어요... 미안합니다...!!!')
+    except Exception as e:
+        print(e)
+        if e.args == ("Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}",):
+            await ctx.send('돈이 없어요... 미안합니다...!!!\n대화를 이어가려면 다음의 계좌번호로 돈을 보내주세요...!!!\n`SC제일은행 63320310531 (이승원)`')
+        else:
+            await ctx.send('오류가 발생했어요... 미안합니다...!!!\n> ' + str(e))
 
 def TalkWithYang(message: str):
     client = OpenAI(api_key=os.environ.get('API_KEY'))
