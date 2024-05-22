@@ -39,7 +39,7 @@ def TalkWithYang(message: str):
             {"role": "system", "content": prompt},
             {"role": "user", "content": message}
         ],
-        model='gpt-4-1106-preview',
+        model='gpt-4o',
     )
     print(chat_completion.choices[0].message.content, "라는 내용으로 gpt-4로부터 응답을 받았어요...!!!")
     return chat_completion.choices[0].message.content
